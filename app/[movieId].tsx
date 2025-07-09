@@ -43,7 +43,7 @@ export default function MovieDetailsScreen() {
         <ScrollView
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
-          {loading && <ActivityIndicator size="large" />}
+          {loading && <ActivityIndicator accessibilityHint="loading" size="large" />}
           {movieData != null && (
             <View className={styles.movieData}>
               <Text className={styles.movieName}>{movieData.name}</Text>
@@ -51,6 +51,7 @@ export default function MovieDetailsScreen() {
                 <View className={styles.rowDetail}>
                   {movieData.image != null && (
                     <Image
+                      accessibilityHint="movie image"
                       className={styles.movieImg}
                       source={{ uri: movieData.image }}
                       style={{ height: 160, width: 110 }}

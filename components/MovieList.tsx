@@ -21,6 +21,7 @@ const RenderItem = ({ item }: { item: SearchMovieItemType }) => (
   >
     <View className={styles.movieContainer}>
       <Image
+        accessibilityHint="movie image"
         className={styles.movieImg}
         source={{ uri: item.img_poster }}
         style={{ height: 140, width: 100 }}
@@ -49,7 +50,9 @@ export const MovieList = ({ loading, movieList }: MovieListType) => {
         data={movieList}
         renderItem={RenderItem}
         ItemSeparatorComponent={Divider}
-        ListEmptyComponent={loading ? <ActivityIndicator size="large" /> : undefined}
+        ListEmptyComponent={
+          loading ? <ActivityIndicator accessibilityHint="loading" size="large" /> : undefined
+        }
       />
     </View>
   );
