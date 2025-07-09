@@ -1,3 +1,4 @@
+import * as Device from "expo-device";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Image, RefreshControl, ScrollView, Text, View } from "react-native";
@@ -39,7 +40,16 @@ export default function MovieDetailsScreen() {
   return (
     <>
       <Stack.Screen options={{ title: movieData?.name || "Movie Detail" }} />
-      <SafeAreaView className={styles.container} edges={["bottom", "left", "right"]}>
+      <SafeAreaView
+        className={styles.flex}
+        edges={["bottom", "left", "right"]}
+        style={{
+          paddingHorizontal: 20,
+          paddingTop: 20,
+          // if brand is null then we assume it's opened on web
+          paddingBottom: Device.brand == null ? 20 : 0,
+        }}
+      >
         <ScrollView
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
@@ -58,7 +68,7 @@ export default function MovieDetailsScreen() {
                     />
                   )}
                   {movieData.description != null && (
-                    <View className={styles.movieDesc}>
+                    <View className={styles.flex}>
                       <Text className={styles.label}>Description:</Text>
                       <Text>{movieData.description}</Text>
                     </View>
@@ -128,11 +138,10 @@ export default function MovieDetailsScreen() {
 }
 
 const styles = {
-  container: "flex-1 px-5 pt-5",
+  flex: "flex-1",
   movieData: "gap-4",
   movieName: "text-xl font-bold",
   movieImg: "mr-3 rounded-xl",
-  movieDesc: "flex-1",
   label: "font-bold",
   rowDetail: "flex-row gap-1",
 };

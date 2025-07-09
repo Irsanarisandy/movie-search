@@ -1,4 +1,5 @@
 import { Entypo } from "@expo/vector-icons";
+import * as Device from "expo-device";
 import { Stack } from "expo-router";
 import { useMemo, useState } from "react";
 import { TouchableOpacity, View } from "react-native";
@@ -29,7 +30,16 @@ export default function App() {
   return (
     <>
       <Stack.Screen options={{ title: "Movie Search" }} />
-      <SafeAreaView className={styles.container} edges={["bottom", "left", "right"]}>
+      <SafeAreaView
+        className={styles.container}
+        edges={["bottom", "left", "right"]}
+        style={{
+          paddingHorizontal: 20,
+          paddingTop: 20,
+          // if brand is null then we assume it's opened on web
+          paddingBottom: Device.brand == null ? 20 : 0,
+        }}
+      >
         <SearchBar
           searchPhrase={searchPhrase}
           searchPressed={searchPressed}
@@ -39,7 +49,8 @@ export default function App() {
         <View
           style={{
             position: "absolute",
-            bottom: insets.bottom,
+            // if brand is null then we assume it's opened on web
+            bottom: Device.brand == null ? 20 : insets.bottom,
             right: insets.right + 20,
           }}
         >
@@ -61,6 +72,6 @@ export default function App() {
 }
 
 const styles = {
-  container: "flex-1 items-center px-5 pt-5",
+  container: "flex-1 items-center",
   clearBtn: "bg-white border-2 border-neutral-300 items-center justify-center rounded-full",
 };
