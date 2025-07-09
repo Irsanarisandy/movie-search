@@ -1,4 +1,5 @@
-import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
+import { router } from "expo-router";
+import { ActivityIndicator, FlatList, Image, Pressable, Text, View } from "react-native";
 
 import { SearchMovieItemType } from "utils/moviesApi";
 
@@ -10,25 +11,34 @@ interface MovieListType {
 const Divider = () => <View className={styles.divider} style={{ height: 2 }} />;
 
 const RenderItem = ({ item }: { item: SearchMovieItemType }) => (
-  <View className={styles.movieContainer}>
-    <Image
-      className={styles.movieImg}
-      source={{ uri: item.img_poster }}
-      style={{ height: 140, width: 100 }}
-    />
-    <View className={styles.movieContent}>
-      <Text className={styles.movieTitle} numberOfLines={2}>
-        {item.title}
-      </Text>
-      {item.year != null && <Text className={styles.movieDesc}>{item.year}</Text>}
-      {item.actors !== "" && (
-        <Text className={styles.movieDesc} numberOfLines={2}>
-          {item.actors}
+  <Pressable
+    onPress={() =>
+      router.navigate({
+        pathname: "/[movieId]",
+        params: { movieId: item.imdb_id },
+      })
+    }
+  >
+    <View className={styles.movieContainer}>
+      <Image
+        className={styles.movieImg}
+        source={{ uri: item.img_poster }}
+        style={{ height: 140, width: 100 }}
+      />
+      <View className={styles.movieContent}>
+        <Text className={styles.movieTitle} numberOfLines={2}>
+          {item.title}
         </Text>
-      )}
-      <Text className={styles.movieDesc}>IMDB Rank: {item.rank}</Text>
+        {item.year != null && <Text className={styles.movieDesc}>{item.year}</Text>}
+        {item.actors !== "" && (
+          <Text className={styles.movieDesc} numberOfLines={2}>
+            {item.actors}
+          </Text>
+        )}
+        <Text className={styles.movieDesc}>IMDB Rank: {item.rank}</Text>
+      </View>
     </View>
-  </View>
+  </Pressable>
 );
 
 export const MovieList = ({ loading, movieList }: MovieListType) => {
